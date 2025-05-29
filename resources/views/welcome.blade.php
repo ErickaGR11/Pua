@@ -53,21 +53,21 @@
             .square-left2 {
             background-color: #f1cdd7;
             background-image: url("Imagenes/img8.png");
-            background-size: cover; /* La imagen cubrirá todo el contenedor */
-            background-repeat: no-repeat; /* La imagen no se repetirá */
-            background-position: center; /* La imagen se centrará */
+            background-size: cover; 
+            background-repeat: no-repeat; 
+            background-position: center;
             }
             .square-right2 {
             background-color: #bd1553;
             background-image: url("Imagenes/img1.png");
-            background-size: cover; /* La imagen cubrirá todo el contenedor */
-            background-repeat: no-repeat; /* La imagen no se repetirá */
-            background-position: center; /* La imagen se centrará */
+            background-size: cover; 
+            background-repeat: no-repeat; 
+            background-position: center; 
             }
 
             .accordion-button:not(.collapsed) {
-                background-color: #f1cdd736; /* Rosa claro */
-                color: #bd1553; /* Rosa oscuro */
+                background-color: #f1cdd736; 
+                color: #bd1553; 
             }
 
             .accordion-button {
@@ -101,7 +101,7 @@
                     <!-- CENTRO: Menú de navegación -->
                     <ul class="navbar-nav mx-auto mb-2 mb-lg-0 d-flex gap-3 align-items-center">
                         <li class="nav-item">
-                            <a class="nav-link" href="#SobreNosotros">Sobre Nosotros</a>
+                            <a class="nav-link" href="#SobreNosotros">Sobre nosotros</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="offeringsDropdown" role="button"
@@ -120,15 +120,20 @@
                     @if (Route::has('login'))
                         <div class="d-flex gap-2">
                             @auth
-                                <a href="{{ url('/dashboard') }}" class="btn btn-md rounded-pill px-3 mx-2" style="color: #0c442c; border: 1px solid #0c442c;">
+                                @php
+                                    $user = Auth::user();
+                                    $redirectUrl = ($user && $user->role === 'admin') ? url('/admiDashboard') : url('/dashboard');
+                                @endphp
+
+                                <a href="{{ $redirectUrl }}" class="btn btn-md rounded-2 px-3 mx-2" style="color: #0c442c; border: 1px solid #0c442c;">
                                     Ir a inicio
                                 </a>
                             @else
-                                <a href="{{ route('login') }}" class="btn btn-md rounded-pill px-3 mx-2" style="color: #0c442c; border: 1px solid #0c442c;">
+                                <a href="{{ route('login') }}" class="btn btn-md rounded-2 px-3 mx-2" style="color: #0c442c; border: 1px solid #0c442c;">
                                     Iniciar Sesión
                                 </a>
                                 @if (Route::has('register'))
-                                    <a href="{{ route('register') }}" class="btn btn-md rounded-pill px-3" style="background-color: #0c442c; color: white;">
+                                    <a href="{{ route('register') }}" class="btn btn-md rounded-2 px-3" style="background-color: #0c442c; color: white;">
                                        Registrarse
                                     </a>
                                 @endif
@@ -149,8 +154,12 @@
                     <h1 class="display-3 fw-bold" >Velas artesanales que <span style="color: #bd1553;">iluminan</span> tus momentos únicos</h1>
                     <p class="lead">Para una ocasión especial o para disfrutar en casa, nuestras velas son el complemento perfecto para cualquier ambiente.</p>
                     <div class="d-flex gap-3 mt-4">
-                        <a href="{{ route('register') }}" class="btn btn-lg rounded-pill" style="background-color: #0c442c; color:white">Comienza a personalizar <i class="bi bi-arrow-right"></i></a>
-                        <button class="btn btn-outline-secondary btn-lg rounded-pill">Contactanos wpp</button> 
+                        <a href="{{ route('register') }}" class="btn btn-lg rounded-2" style="background-color: #0c442c; color:white">Comienza a personalizar <i class="bi bi-arrow-right"></i></a>
+                        <a href="https://wa.me/4811535657?text=Hola,%20quiero%20más%20información%20sobre%20las%20velas%20artesanales" 
+                          target="_blank" 
+                          class="btn btn-outline-secondary btn-lg rounded-2">
+                          Contáctanos
+                        </a>
                     </div>
                 </div>
                 <div class="col-md-7 p-5 rounded-end" style="background-color: #efede675;">

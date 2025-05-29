@@ -17,7 +17,9 @@ return new class extends Migration
             $table->string('descripcion');
             $table->decimal('precio', 8, 2);
             $table->integer('stock');
-            $table->string('imagen');
+            $table->string('url_imagen');
+            $table->unsignedBigInteger('seccion_id');
+            $table->unsignedBigInteger('categoria_id');
             $table->timestamps();
         });
 
@@ -27,9 +29,17 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        Schema::create('secciones', function (Blueprint $table) {
+            $table->id();
+            $table->string('nombre');
+            $table->timestamps();
+        });
+
+
         Schema::create('colores', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
+            $table->string('hexadecimal'); 
             $table->timestamps();
         });
 
@@ -39,25 +49,14 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('venta', function (Blueprint $table) {
+        Schema::create('ventas', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('producto_id');
-            $table->unsignedBigInteger('categoria_id');
-            $table->unsignedBigInteger('color_id');
-            $table->unsignedBigInteger('aroma_id');
-            $table->integer('cantidad');
+            $table->unsignedBigInteger('user_id');
+            $table->dateTime('fecha_venta');
             $table->decimal('precio_total', 8, 2);
             $table->timestamps();
         });
-
-        //claves foráneas después
-        Schema::table('venta', function (Blueprint $table) {
-            $table->foreign('producto_id')->references('id')->on('productos')->onDelete('cascade');
-            $table->foreign('categoria_id')->references('id')->on('categorias')->onDelete('cascade');
-            $table->foreign('color_id')->references('id')->on('colores')->onDelete('cascade');
-            $table->foreign('aroma_id')->references('id')->on('aromas')->onDelete('cascade');
-        });
-
+        
     }
 
     /**

@@ -1,0 +1,81 @@
+.btn-outline2{
+    border-color: #bd1553; 
+    color:#bd1553;
+    background-color: transparent;
+    font-weight: 600;
+
+}   
+.btn.btn-outline2:active i.bi {
+    color: #bd1553 !important; 
+}
+.btn-outline2 i.bi {
+    color: #bd1553 !important; 
+    border-color: #bd1553; 
+}
+.btn-outline2:hover {
+    background-color: #bd1553;
+    color: rgb(255, 255, 255);
+}
+.btn-outline2:hover i.bi{
+    color: rgb(255, 255, 255) !important; 
+}
+.btn-outline3{
+    color:#ffffff;
+    background-color: #bd1553;
+    font-weight: 600;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.183);
+}   
+.btn.btn-outline3:active i.bi {
+    color: #ffffff !important; 
+}
+.btn-outline3 i.bi {
+    color: #ffffff !important; 
+    border-color: #ffffff; 
+}
+.btn-outline3:hover {
+    background-color: #ffffff;
+    color: #bd1553;
+}
+.btn-outline3:hover i.bi{
+    color: #bd1553 !important; 
+}
+ .btn-outline4{
+    color:#ffffff;
+    background-color: #bd1553;
+    font-weight: 600;
+   
+}   
+.btn.btn-outline4:active i.bi {
+    color: #ffffff !important; 
+}
+.btn-outline4 i.bi {
+    color: #ffffff !important; 
+    border-color: #ffffff; 
+}
+.btn-outline4:hover {
+    background-color: #ffffff;
+    color: #bd1553;
+    border: #bd1553 1px solid;
+}
+.btn-outline4:hover i.bi{
+    color: #bd1553 !important; 
+}
+
+.btn-outline1{
+    border-color: #ffffff; 
+    color:rgb(255, 255, 255);
+    background-color: transparent;
+    font-weight: 600;
+
+}   
+.btn.btn-outline1:active i.bi {
+    color: white !important; 
+}
+.btn-outline1:hover {
+    background-color: white;
+    color: black;
+}
+.btn-outline1:hover i.bi{
+    color: black;
+}
+
