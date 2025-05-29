@@ -31,6 +31,7 @@ Route::post('/carrito/agregar', [AdminController::class, 'agregar'])->name('carr
 Route::delete('/carrito/eliminar/{id}', [AdminController::class, 'eliminarDelCarrito'])->name('carrito.eliminar');
 
 
+Route::post('/enviarpdf', [AdminController::class, 'enviarpdf'])->name('enviarpdf');
 
 
 Route::middleware('auth')->group(function () {

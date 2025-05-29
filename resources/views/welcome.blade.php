@@ -239,7 +239,9 @@
             <div class="row p-4">
                 <div class="col-sm-4">
                     <div class="card">
-                      <div class="card-header"><i class="bi bi-brush-fill fs-1"></i></div>
+                        <div class="card-header text-center">
+                          <div id="lottie-edit" style="width: 80px; height: 80px; margin: auto;"></div>
+                        </div>
                       <div class="card-body">
                         <h5 class="card-title">Personalización Total</h5>
                         <p class="card-text">Crea velas que reflejen tu estilo único. 
@@ -595,6 +597,7 @@
               </div>
             </div>
         </footer>
+        @vite("resources/js/app.js")
     </body>
     
 </html>

@@ -10,6 +10,9 @@ use App\Models\CarritoItem;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Venta;
 use App\Models\DetalleVenta;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ReportePedido;
 
 class AdminController extends Controller
 {
@@ -156,5 +159,35 @@ class AdminController extends Controller
     {
         $carritoItems = CarritoItem::with('producto')->where('user_id', Auth::id())->get();
         return view('detalleCompra', compact('carritoItems'));
+    }
+
+    public function enviarReporte($ventaId)
+{
+    $venta = Venta::with(['detalles.producto', 'detalles.aroma', 'detalles.color'])->findOrFail($ventaId);
+    $user = $venta->user;
+
+    $productos = $venta->detalles->map(function ($detalle) {
+        return [
+            'nombre' => $detalle->producto->nombre ?? 'Sin nombre',
+            'aroma' => $detalle->aroma->nombre ?? 'N/A',
+            'color' => $detalle->color->nombre ?? 'N/A',
+            'cantidad' => $detalle->cantidad,
+            'subtotal' => $detalle->subtotal
+        ];
+    });
+
+    $total = $venta->precio_total;
+
+    // Generar el PDF
+    $pdf = Pdf::loadView('reportes.venta', compact('user', 'productos', 'total'));
+
+    // Guardar temporalmente el PDF
+    $pdfPath = storage_path('app/public/Reporte_Pedido.pdf');
+    $pdf->save($pdfPath);
+
+    // Enviar correo
+    Mail::to('netflixteam8119@gmail.com')->send(new ReportePedido($user, $pdfPath));
+
+    return redirect()->route('dashboard')->with('success', 'El reporte fue enviado con éxito.');
     }
 }
