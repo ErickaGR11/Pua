@@ -15,28 +15,33 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     
     <style>
-        .swiper {
-            width: 100%;
-            padding-top: 30px;
-            padding-bottom: 50px;
+        #carouselTrack {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 1rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 1rem;
+            scrollbar-width: none;        
+            -ms-overflow-style: none;     
         }
 
-        .swiper-slide {
-            transition: transform 0.3s ease;
+        #carouselTrack::-webkit-scrollbar {
+           display: none;              
         }
 
-        .swiper-slide-active .custom-card {
-            transform: scale(1.1);
-            z-index: 10;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.201);
+        #carouselTrack .card {
+            scroll-snap-align: start;
+            flex-shrink: 0;
+            width: 90%;
+            max-width: 435px;
         }
 
-        .swiper-slide-active .custom-card .card-body2 {
-            background-color: rgba(0, 0, 0, 0.183);
-            color: #ffffff;
-            border-radius: 20px 20px 0px 0px;
-            display: block;
-        }
+
+    
+    
     </style>
 
     <div class="container mx-auto">
@@ -51,106 +56,140 @@
         </div>
     </div>
 
-    <div class="container py-4">
-        <h2 class="fw-bold mb-4">Top 5</h2>
-        <p class="text-muted">Productos mas vendidos </p>
-        <div class="swiper mySwiper mt-5">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <div class="card text-dark custom-card position-relative overflow-hidden">
-                        <!-- Imagen del producto -->
-                        <img src="Imagenes/Principal carrusel/img1.jpg" 
-                            class="card-img"
-                            alt="a"
-                            style="height: 450px; object-fit: cover;">
-                        <!-- Contenido inferior fijo -->
-                        <div class="card-body2 position-absolute bottom-0 w-100 p-3 shadow">
-                            <div class="d-flex align-items-center">
-                               <div class="align-items-start">
-                                    <h4 class="card-title mb-1 fw-bold">a</h4>
-                                    <h5 class="card-title mb-1">$1</h5>
-                                </div>
-                               
-                            </div>
-                        </div>
+    <section id="productosMasVendidos">
+        <div class="container mb-5 text-center">
+        <h2 class="display-5 fw-bold" style="color: #bd1553;">Top 5 </h2>
+        <p class="text-muted mx-auto mb-4" style="max-width: 600px;">
+           Productos más vendidos hasta ahora
+        </p>
+        <span class="d-inline-flex px-2 fw-semibold rounded-2 mb-4" style="font-size: 1.25rem; background-color: #d4b6e696; color: #4e2267; border-color: #4e2267; border-width: 1px; border-style: solid;">
+            Populares
+        </span>
+    
+        <!-- Carrusel con deslizamiento -->
+        <div class="position-relative" style="overflow: hidden;">
+        <!-- Carrusel -->
+        <div id="carouselTrack" class="d-flex mySwiper transition" style="gap: 1rem; transition: transform 0.5s ease;">
+            <!-- Tarjetas de producto -->
+            @foreach ($productos as $producto)
+            <div class="card flex-shrink-0">
+                <img src="{{ asset($producto->url_imagen) }}" class="card-img-top" style="height: 330px; object-fit: cover;" alt="{{ $producto->nombre }}">
+                <div class="card-body">
+                    <div class="d-flex flex-column align-items-start">
+                        <h5 class="card-title fs-5 fw-bold">{{ $producto->nombre }}</h5>
+                        <p class="card-text fs-6">${{ number_format($producto->precio, 2) }}</p>
+                        <p class="card-text"><b>Vendidos: </b>{{ $producto->total_vendido }}</p>
                     </div>
                 </div>
-              
             </div>
+            @endforeach
         </div>
-    
+    </section>
     
     <div class="container py-4">
         <h2 class="fw-bold mb-4">Productos</h2>
         <p class="text-muted">Crea nuevos, edita, o elimina productos </p>
+        <div class="d-flex justify-content-end mb-3"> 
+            <button class="btn btn-primary" style="background-color:rgb(27, 87, 189)">Agregar</button>
+        </div>
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <input type="text" class="form-control w-100" placeholder="Search">
+            <input type="text" id="buscadorVentas" class="form-control w-100" placeholder="Search">
         </div>
         
-        <div class="d-flex gap-3 mb-4">
+       <!-- <div class="d-flex gap-3 mb-4">
             <button class="btn btn-outline-dark"> Todos</button>
             <button class="btn btn-outline-dark"> Natural</button>
             <button class="btn btn-outline-dark"> Floral</button>
             <button class="btn btn-outline-dark "> Creativo</button>
             
-        </div>
+        </div> -->
 
-        <div class="row g-3 mb-4">
-            <button class="btn btn-primary "> Agregar</button>
-            <div class="col-sm-6 col-md-6 col-lg-4 mb-4">
-                <div class="card shadow-sm h-100">
-                    <!-- Botón que controla el despliegue -->
-                    <div data-bs-toggle="collapse" data-bs-target="#formProducto1" aria-expanded="false" style="cursor: pointer;">
-                        <img src="../Imagenes/Principal carrusel/img1.jpg" class="card-img-top" alt="Producto" style="height: 220px; object-fit: cover;">
-                        <div class="card-body">
-                            <h5 class="card-title mb-0 text-center">Nombre del producto</h5>
+        <div class="row g-3 mb-4" id="cardsAcordeon">
+            @foreach ($productosAll as $producto)
+                <div class="col-sm-6 col-md-6 col-lg-4 mb-4 producto-card">
+                    <div class="card h-100 border-0 ">
+                        <div data-bs-toggle="collapse" data-bs-target="#formProducto{{ $producto->id }}" aria-expanded="false" style="cursor: pointer;">
+                            <img src="{{ asset($producto->url_imagen) }}" class="card-img-top" alt="{{ $producto->nombre }}" style="height: 220px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5 class="card-title mb-0 text-center">{{ $producto->nombre }}</h5>
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- Contenido oculto con collapse -->
-                    <div class="collapse" id="formProducto1">
-                        <div class="card-body pt-0">
-                            <hr>
-                            <div class="mb-3">
-                                <label class="form-label">Nombre</label>
-                                <input type="text" class="form-control" value="Nombre del producto">
-                            </div>
+                        <div class="collapse" id="formProducto{{ $producto->id }}" data-bs-parent="#cardsAcordeon">
+                            <div class="card-body pt-0">
+                                <hr>
+                                <form action="{{ route('productos.actualizar', $producto->id) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')  
+                                    <div class="mb-3">
+                                        <label class="form-label">Nombre</label>
+                                        <input type="text" name="nombre" class="form-control" value="{{ $producto->nombre }}">
+                                    </div>
 
-                            <div class="mb-3">
-                                <label class="form-label">Descripción</label>
-                                <textarea class="form-control" rows="2">Descripción del producto</textarea>
-                            </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Descripción</label>
+                                        <textarea name="descripcion" class="form-control" rows="2">{{ $producto->descripcion }}</textarea>
+                                    </div>
 
-                            <div class="mb-3">
-                                <label class="form-label">Precio</label>
-                                <input type="number" class="form-control" value="99.99">
-                            </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Precio</label>
+                                        <input type="number" name="precio" class="form-control" value="{{ $producto->precio }}">
+                                    </div>
 
-                            <div class="mb-3">
-                                <label class="form-label">Stock</label>
-                                <input type="number" class="form-control" value="25">
-                            </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Stock</label>
+                                        <input type="number" name="stock" class="form-control" value="{{ $producto->stock }}">
+                                    </div>
 
-                            <div class="mb-3">
-                                <label class="form-label">URL de imagen</label>
-                                <div class="input-group">
-                                    <input type="text" id="imagenURL" class="form-control" placeholder="Selecciona una imagen" readonly>
-                                    <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('fileInput').click();">
-                                        Buscar
-                                    </button>
-                                </div>
-                                <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="handleFile(this)">
-                            </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Categoría</label>
+                                        <select name="categoria_id" class="form-select">
+                                            @foreach ($categorias as $categoria)
+                                                <option value="{{ $categoria->id }}" {{ $producto->categoria_id == $categoria->id ? 'selected' : '' }}>
+                                                    {{ $categoria->nombre }} {{-- Assuming 'nombre' is the column with the category name --}}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
 
-                            <div class="d-flex justify-content-end mt-3">
-                                <button class="btn btn-danger me-3"><i class="bi bi-trash-fill"></i> Eliminar</button>
-                                <button class="btn btn-primary">Actualizar</button>
+                                    <div class="mb-3">
+                                        <label class="form-label">Sección</label>
+                                        <select name="seccion_id" class="form-select">
+                                            @foreach ($secciones as $seccion)
+                                                <option value="{{ $seccion->id }}" {{ $producto->seccion_id == $seccion->id ? 'selected' : '' }}>
+                                                    {{ $seccion->nombre }} {{-- Assuming 'nombre' is the column with the section name --}}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">URL de imagen</label>
+                                        <div class="input-group">
+                                            <input type="text" id="imagenURL{{ $producto->id }}" name="url_imagen" class="form-control" placeholder="Selecciona una imagen" value="{{ $producto->url_imagen }}" >
+                                            <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('fileInput{{ $producto->id }}').click();">
+                                                Buscar
+                                            </button>
+                                        </div>
+                                        <input type="file" id="fileInput{{ $producto->id }}" accept="image/*" style="display: none;" onchange="handleFile(this, 'imagenURL{{ $producto->id }}')">
+                                    </div>
+
+                                    <div class="d-flex justify-content-end mt-3">
+                                        <button type="button" class="btn btn-danger me-3" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $producto->id }}').submit();">
+                                            <i class="bi bi-trash-fill"></i> Eliminar
+                                        </button>
+                                        <button type="submit" class="btn btn-primary" style="background-color:rgb(27, 87, 189)">Actualizar</button>
+                                    </div>
+                                </form>
+                                <form id="delete-form-{{ $producto->id }}" action="{{ route('productos.eliminar', $producto->id) }}" method="POST" style="display: none;">
+                                    @csrf
+                                    @method('DELETE')  
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-           
+            @endforeach
         </div>
  
     </div>   
@@ -159,8 +198,22 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 <!-- Script -->
-    <script>
-        // Inicialización de Swiper 
+<script>
+    document.getElementById('buscadorVentas').addEventListener('input', function () {
+        const filtro = this.value.toLowerCase();
+        const productos = document.querySelectorAll('.producto-card');
+
+        productos.forEach(card => {
+            const nombre = card.querySelector('.card-title').textContent.toLowerCase();
+            if (nombre.includes(filtro)) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    });
+       
+    // Inicialización de Swiper 
         document.addEventListener('DOMContentLoaded', function () {
             new Swiper('.mySwiper', {
                 slidesPerView: 3,
@@ -168,19 +221,28 @@
                 centeredSlides: true,
                 loop: true,
                 grabCursor: true,
-                breakpoints: {
+               breakpoints: {
                     0: {
-                        slidesPerView: 1,
+                        slidesPerView: 1.5,
+                        spaceBetween: 10
+                    },
+                    576: {
+                        slidesPerView: 1.5,
+                        spaceBetween: 20
                     },
                     768: {
                         slidesPerView: 2,
+                        spaceBetween: 30
                     },
                     992: {
                         slidesPerView: 3,
+                        spaceBetween: 50
                     }
                 }
+
             });
         });
-    </script>
+
+</script>
 
  @endsection

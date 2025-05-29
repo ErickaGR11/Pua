@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link rel="stylesheet" href="https://carriers-presidential-honolulu-listings.trycloudflare.com/css/styles.css">
     
     <!-- Estilos personalizados para Swiper -->
     <style>
@@ -91,11 +92,11 @@
             height: 400px;
         }
 
-        .card-hover3.active {
+    /*    .card-hover3.active {
             transform: scale(1.05);
             z-index: 10;
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
-        }
+        }*/
 
 
         .card-icon3,
@@ -112,7 +113,7 @@
             background-color: rgba(0, 0, 0, 0.1);
         }
 
-        .card-body3 {
+      /*  .card-body3 {
             opacity: 0;
             transition: opacity 0.3s ease;
            
@@ -120,7 +121,7 @@
 
         .card-hover3.active .card-body3 {
         opacity: 1;
-        }
+        }*/
 
         .card-content3 {
         padding: 2rem 1rem;
@@ -255,7 +256,7 @@
             Populares
         </span>
     
-        <!-- Carrusel con botones -->
+        <!-- Carrusel con deslizamiento -->
         <div class="position-relative" style="overflow: hidden;">
         <!-- Carrusel -->
         <div id="carouselTrack" class="d-flex mySwiper transition" style="gap: 1rem; transition: transform 0.5s ease;">
@@ -277,7 +278,7 @@
                     </div>
                 </div>
             </div>
-        @endforeach
+            @endforeach
         </div>
     </section>
   
@@ -381,17 +382,10 @@
         @foreach ($productosCategoria3 as $producto)
             <div class="col-md-4 ">
                 <div class="card-hover3 p-4" style="background-image: url('{{ asset($producto->url_imagen) }}'); background-size: cover; background-position: center;">
-                    <div class="card-expand3">
-                        <i class="bi bi-arrows-angle-expand"></i>
-                    </div>
                 
                     <div class="card-body3">
                         <!-- Nombre del producto alineado a la izquierda -->
                         <h5 class="fw-bold fs-2 text-start" style=" text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.513);">{{ $producto->nombre }}</h5>
-
-                        <!-- Descripción también alineada a la izquierda -->
-                        <p class="mb-2 fs-4 text-start" style=" text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.347);">{{ $producto->descripcion }}</p>
-
                         <!-- Precio a la izquierda, botones a la derecha -->
                         <div class="d-flex justify-content-between align-items-center">
                             <p class="fw-bold fs-4 mb-0 text-start" style=" text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.347);">${{ number_format($producto->precio, 2) }}</p>
@@ -507,7 +501,7 @@
 
             });
 
-            //Card Hover
+            /*Card Hover
        
             const cards = document.querySelectorAll('.card-hover3');
 
@@ -525,7 +519,7 @@
                         card.classList.add('active');
                     }
                 });
-            });
+            });*/
 
             // Carrusel con botones
             const track = document.getElementById("carouselTrack");

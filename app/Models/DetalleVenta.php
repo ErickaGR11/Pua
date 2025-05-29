@@ -19,8 +19,12 @@ class DetalleVenta extends Model
         'subtotal',
     ];
 
-    public function detalles()
+     public function venta()
     {
-        return $this->hasMany(DetalleVenta::class);
+        return $this->belongsTo(Venta::class);
+    }
+        public function producto()
+    {
+        return $this->belongsTo(Producto::class);
     }
 }

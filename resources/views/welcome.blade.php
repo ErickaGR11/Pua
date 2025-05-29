@@ -20,67 +20,110 @@
 
         <!-- Iconos -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-
-        <style>
-            .rect-top2 {
-                background-image: url("Imagenes/img13.png");
-                background-size: cover; /* O usa 'cover' si quieres que llene todo el espacio */
-                background-repeat: no-repeat;
-                background-position: center;
-                height: 100%;
-                filter:drop-shadow(0 10px 25px rgba(0, 0, 0, 0.15)); /* Sombra elegante */
-                mask-image: linear-gradient(to top, rgb(255, 255, 255) 10%, rgb(255, 0, 0) 30%);
-            }
-    
-            .rect-top {
-            background-color: #d4b6e6;
-            height: 300px;
-            border-radius: 20px;
-            }
-
-            .square {
-            background-color: #f1cdd7;
-            height: 200px;
-            border-radius: 20px;
-            }
-            .square-right {
-            background-color: #bd1553;
-            }
-            .square2{
-            height: 200px;
-            border-radius: 20px;
-            }
-            .square-left2 {
-            background-color: #f1cdd7;
-            background-image: url("Imagenes/img8.png");
-            background-size: cover; 
-            background-repeat: no-repeat; 
+        
+    <style>
+        @media (max-width: 768px) {
+          .custom-btn {
+            font-size: 0.85rem;
+            padding: 0.375rem 0.75rem;
+          }
+        }
+        .rect-top2 {
+            background-image: url("Imagenes/img13.png");
+            background-size: cover; /* O usa 'cover' si quieres que llene todo el espacio */
+            background-repeat: no-repeat;
             background-position: center;
-            }
-            .square-right2 {
-            background-color: #bd1553;
-            background-image: url("Imagenes/img1.png");
-            background-size: cover; 
-            background-repeat: no-repeat; 
-            background-position: center; 
-            }
-
-            .accordion-button:not(.collapsed) {
-                background-color: #f1cdd736; 
-                color: #bd1553; 
-            }
-
-            .accordion-button {
-                color: #212529;
-                background-color: #fff;
-            }
-
-            .accordion-button:focus {
-                box-shadow: 0 0 0 0.1rem rgba(150, 20, 67, 0.34);
-                
-            }
+            height: 100%;
+            filter:drop-shadow(0 10px 25px rgba(0, 0, 0, 0.15)); /* Sombra elegante */
+            mask-image: linear-gradient(to top, rgb(255, 255, 255) 10%, rgb(255, 0, 0) 30%);
+        }
+  
+        .rect-top {
+        background-color: #d4b6e6;
+        height: 300px;
+        border-radius: 20px;
+        }
+        .square {
+        background-color: #f1cdd7;
+        height: 200px;
+        border-radius: 20px;
+        }
+        .square-right {
+        background-color: #bd1553;
+        }
+        .square2{
+        height: 200px;
+        border-radius: 20px;
+        }
+        .square-left2 {
+        background-color: #f1cdd7;
+        background-image: url("Imagenes/img8.png");
+        background-size: cover; 
+        background-repeat: no-repeat; 
+        background-position: center;
+        }
+        .square-right2 {
+        background-color: #bd1553;
+        background-image: url("Imagenes/img1.png");
+        background-size: cover; 
+        background-repeat: no-repeat; 
+        background-position: center; 
+        }
+        .accordion-button:not(.collapsed) {
+            background-color: #f1cdd736; 
+            color: #bd1553; 
+        }
+        .accordion-button {
+            color: #212529;
+            background-color: #fff;
+        }
+        .accordion-button:focus {
+            box-shadow: 0 0 0 0.1rem rgba(150, 20, 67, 0.34);
             
-        </style>
+        }
+        
+        #carouselTrack {
+          display: flex;
+          flex-wrap: nowrap;
+          gap: 1rem;
+          overflow-x: auto;
+          scroll-snap-type: x mandatory;
+          scroll-behavior: smooth;
+          -webkit-overflow-scrolling: touch;
+          padding-bottom: 1rem;
+          scrollbar-width: none;        
+          -ms-overflow-style: none;     
+        }
+        #carouselTrack::-webkit-scrollbar {
+          display: none;              
+        }
+        #carouselTrack .card {
+            scroll-snap-align: start;
+            flex-shrink: 0;
+            width: 90%;
+            max-width: 435px;
+        }
+        .btn-outline2{
+            border-color: #bd1553; 
+            color:#bd1553;
+            background-color: transparent;
+            font-weight: 600;
+        }   
+        .btn.btn-outline2:active i.bi {
+            color: #bd1553 !important; 
+        }
+        .btn-outline2 i.bi {
+            color: #bd1553 !important; 
+            border-color: #bd1553; 
+        }
+        .btn-outline2:hover {
+            background-color: #bd1553;
+            color: rgb(255, 255, 255);
+        }
+        .btn-outline2:hover i.bi{
+            color: rgb(255, 255, 255) !important; 
+        }
+    </style>
 
     </head>
     <body style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
@@ -143,26 +186,26 @@
                 </div>
             </div>
         </nav>
-      
+  
         @if (Route::has('login'))
             <div class="hidden lg:block"></div>
         @endif
 
         <div class="container my-5">
             <div class="row g-0">
-                <div class="col-md-5 p-4" style="background-color: #efede675;">
+                <div class="col-md-6 p-4" style="background-color: #efede675;">
                     <h1 class="display-3 fw-bold" >Velas artesanales que <span style="color: #bd1553;">iluminan</span> tus momentos únicos</h1>
                     <p class="lead">Para una ocasión especial o para disfrutar en casa, nuestras velas son el complemento perfecto para cualquier ambiente.</p>
                     <div class="d-flex gap-3 mt-4">
-                        <a href="{{ route('register') }}" class="btn btn-lg rounded-2" style="background-color: #0c442c; color:white">Comienza a personalizar <i class="bi bi-arrow-right"></i></a>
+                        <a href="{{ route('register') }}" class="btn custom-btn rounded-2" style="background-color: #0c442c; color:white">Comienza a personalizar <i class="bi bi-arrow-right"></i></a>
                         <a href="https://wa.me/4811535657?text=Hola,%20quiero%20más%20información%20sobre%20las%20velas%20artesanales" 
                           target="_blank" 
-                          class="btn btn-outline-secondary btn-lg rounded-2">
+                          class="btn btn-outline-secondary custom-btn rounded-2 ">
                           Contáctanos
                         </a>
                     </div>
                 </div>
-                <div class="col-md-7 p-5 rounded-end" style="background-color: #efede675;">
+                <div class="col-md-6 p-4 rounded-end" style="background-color: #efede675;">
                     <div class="rect-top mb-4"></div>
                     <div class="row g-3">
                         <div class="col-md-6">
@@ -279,8 +322,8 @@
         </div>
 
         <!-- SECCIÓN DE PRODUCTOS -->
-        <section id="productos">
-            <div class="container text-center">
+        <section id="productos" class="py-5" style="background-color: #efede675">
+          <div class="container mb-5 text-center">
             <h2 class="display-5 fw-bold">Nuestros productos</h2>
             <p class="text-muted mx-auto mb-4" style="max-width: 600px;">
                 Descubre nuestra colección de velas artesanales, personalizables y con aromas únicos.
@@ -288,122 +331,31 @@
             <span class="d-inline-flex px-2 fw-semibold rounded-2 mb-4" style="font-size: 1.25rem; background-color: #d4b6e696; color: #4e2267; border-color: #4e2267; border-width: 1px; border-style: solid;">
                 Populares
             </span>
-        
-            <!-- Carrusel con botones a los costados -->
-            <div class="position-relative" style="overflow: hidden;">
-              <!-- Botón Izquierdo -->
-                <button id="prevBtn" class="btn position-absolute top-50 start-0 translate-middle-y z-1 
-                bg-white text-dark shadow-lg border-0 ms-2">
-                <i class="bi bi-arrow-left fs-5"></i>
-                </button>
-
-                <!-- Botón Derecho -->
-                <button id="nextBtn" class="btn position-absolute top-50 end-0 translate-middle-y z-1 
-                bg-white text-dark shadow-lg border-0 me-2">
-                <i class="bi bi-arrow-right fs-5"></i>
-                </button>
-
-        
-                <!-- Carrusel -->
-                  <div id="carouselTrack" class="d-flex transition" style="gap: 1rem; transition: transform 0.5s ease;">
-                <!-- Tarjetas de producto -->
-                <div class="card flex-shrink-0" style="width: 250px; height: 100%; min-height: 100%;">
-                    <img src="Imagenes/Productos/Populares/img1.jpg" class="card-img-top" alt="Vela popular" style="height: 200px; object-fit: cover;">
-                    <div class="card-body d-flex flex-column justify-content-between" style="height: 200px;">
-                      <div>
-                        <h5 class="card-title">Vela de Lavanda</h5>
-                        <p class="card-text text-muted">Aroma suave y duradero</p>
+      
+          <!-- Carrusel con deslizamiento -->
+          <div class="position-relative" style="overflow: hidden;">
+          <!-- Carrusel -->
+          <div id="carouselTrack" class="d-flex mySwiper transition" style="gap: 1rem; transition: transform 0.5s ease;">
+              <!-- Tarjetas de producto -->
+              @foreach ($productosSeccion2 as $producto)
+              <div class="card flex-shrink-0">
+                  <img src="{{ asset($producto->url_imagen) }}" class="card-img-top" style="height: 330px; object-fit: cover;" alt="{{ $producto->nombre }}">
+                  <div class="card-body">
+                      <div class="d-flex flex-column align-items-start">
+                          <h5 class="card-title fs-4 fw-bold">{{ $producto->nombre }}</h5>
+                          <p class="card-text fs-5">${{ number_format($producto->precio, 2) }}</p>
+                          <p class="card-text"><small class="text-muted">{{ $producto->descripcion }}</small></p>
                       </div>
-                      <div class="d-flex justify-content-between">
-                        <span class="fw-bold">$250 MXN</span>
-                        <a class="btn btn-outline-secondary btn-sm">Categoria</a>
+                      <div class="d-flex justify-content-end align-items-center mt-3">
+                          <a href="{{ route('detalleProducto', ['id' => $producto->id]) }}" class="btn m-1 btn-outline2">Personalizar</a>
+                          <!--<button class="btn btn-outline2 text-white">
+                              <i class="bi bi-cart-plus"></i>
+                          </button> -->
                       </div>
-                    </div>
-                </div>
-
-                <div class="card flex-shrink-0" style="width: 250px; height: 100%; min-height: 100%;">
-                    <img src="Imagenes/Productos/Populares/img2.jpg" class="card-img-top" alt="Vela popular" style="height: 200px; object-fit: cover;">
-                    <div class="card-body d-flex flex-column justify-content-between" style="height: 200px;">
-                      <div>
-                        <h5 class="card-title">Vela de Lavanda</h5>
-                        <p class="card-text text-muted">Aroma suave y duradero</p>
-                      </div>
-                      <div class="d-flex justify-content-between">
-                        <span class="fw-bold">$250 MXN</span>
-                        <a class="btn btn-outline-secondary btn-sm">Categoria</a>
-                      </div>
-                    </div>
-                </div>
-
-                <div class="card flex-shrink-0" style="width: 250px; height: 100%; min-height: 100%;">
-                    <img src="Imagenes/Productos/Populares/img3.jpg" class="card-img-top" alt="Vela popular" style="height: 200px; object-fit: cover;">
-                    <div class="card-body d-flex flex-column justify-content-between" style="height: 200px;">
-                      <div>
-                        <h5 class="card-title">Vela de Lavanda</h5>
-                        <p class="card-text text-muted">Aroma suave y duradero</p>
-                      </div>
-                      <div class="d-flex justify-content-between">
-                        <span class="fw-bold">$250 MXN</span>
-                        <a class="btn btn-outline-secondary btn-sm">Categoria</a>
-                      </div>
-                    </div>
-                </div>
-
-                <div class="card flex-shrink-0" style="width: 250px; height: 100%; min-height: 100%;">
-                    <img src="Imagenes/Productos/Populares/img4.jpg" class="card-img-top" alt="Vela popular" style="height: 200px; object-fit: cover;">
-                    <div class="card-body d-flex flex-column justify-content-between" style="height: 200px;">
-                      <div>
-                        <h5 class="card-title">Vela de Lavanda</h5>
-                        <p class="card-text text-muted">Aroma suave y duradero</p>
-                      </div>
-                      <div class="d-flex justify-content-between">
-                        <span class="fw-bold">$250 MXN</span>
-                        <a class="btn btn-outline-secondary btn-sm">Categoria</a>
-                      </div>
-                    </div>
-                </div>
-
-                <div class="card flex-shrink-0" style="width: 250px; height: 100%; min-height: 100%;">
-                    <img src="Imagenes/Productos/Populares/img5.jpg" class="card-img-top" alt="Vela popular" style="height: 200px; object-fit: cover;">
-                    <div class="card-body d-flex flex-column justify-content-between" style="height: 200px;">
-                      <div>
-                        <h5 class="card-title">Vela de Lavanda</h5>
-                        <p class="card-text text-muted">Aroma suave y duradero</p>
-                      </div>
-                      <div class="d-flex justify-content-between">
-                        <span class="fw-bold">$250 MXN</span>
-                        <a class="btn btn-outline-secondary btn-sm">Categoria</a>
-                      </div>
-                    </div>
-                </div>
-                 <div class="card flex-shrink-0" style="width: 250px; height: 100%; min-height: 100%;">
-                    <img src="Imagenes/Productos/Populares/img6.jpg" class="card-img-top" alt="Vela popular" style="height: 200px; object-fit: cover;">
-                    <div class="card-body d-flex flex-column justify-content-between" style="height: 200px;">
-                      <div>
-                        <h5 class="card-title">Vela de Lavanda</h5>
-                        <p class="card-text text-muted">Aroma suave y duradero</p>
-                      </div>
-                      <div class="d-flex justify-content-between">
-                        <span class="fw-bold">$250 MXN</span>
-                        <a class="btn btn-outline-secondary btn-sm">Categoria</a>
-                      </div>
-                    </div>
-                </div>
-                 <div class="card flex-shrink-0" style="width: 250px; height: 100%; min-height: 100%;">
-                    <img src="Imagenes/Productos/Populares/img7.jpg" class="card-img-top" alt="Vela popular" style="height: 200px; object-fit: cover;">
-                    <div class="card-body d-flex flex-column justify-content-between" style="height: 200px;">
-                      <div>
-                        <h5 class="card-title">Vela de Lavanda</h5>
-                        <p class="card-text text-muted">Aroma suave y duradero</p>
-                      </div>
-                      <div class="d-flex justify-content-between">
-                        <span class="fw-bold">$250 MXN</span>
-                        <a class="btn btn-outline-secondary btn-sm">Categoria</a>
-                      </div>
-                    </div>
-                </div>
-            </div>
-            </div>
+                  </div>
+              </div>
+          @endforeach
+          </div>
         </section>
 
         <section class="py-5 px-3" style="background-color: #f8f9fa;">
@@ -611,12 +563,62 @@
             </div>
         </footer>
         @vite("resources/js/app.js")
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.7.6/lottie.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.10.2/lottie.min.js"></script>
+
     </body>
     
 </html>
 
 <script>
-    const track = document.getElementById("carouselTrack");
+  const track = document.getElementById("carouselTrack");
+
+    // Aplicar comportamiento scroll suave con snap
+    track.style.overflowX = "auto";
+    track.style.scrollSnapType = "x mandatory";
+    track.style.scrollBehavior = "smooth";
+
+    //LOTTIES
+      // Animación de checklist (información de pedidos)
+      lottie.loadAnimation({
+        container: document.getElementById('lottie-checklist'),
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        path: '/animaciones/checklist.json'
+      });
+ 
+
+      // Animación de "Personalización Total"
+      lottie.loadAnimation({
+        container: document.getElementById("lottie-edit"),
+        renderer: "svg",
+        loop: true,
+        autoplay: true,
+        path: "/animaciones/edit.json" // Ruta relativa
+      });
+
+      // Animación de "Diseños Únicos"
+      lottie.loadAnimation({
+        container: document.getElementById("lottie-P-anim"),
+        renderer: "svg",
+        loop: true,
+        autoplay: true,
+        path: "/animaciones/p-animation.json" // ruta 
+      });
+
+      // Animación de "Aromas Variados"
+      lottie.loadAnimation({
+        container: document.getElementById("lottie-smell"),
+        renderer: "svg",
+        loop: true,
+        autoplay: true,
+        path: "/animaciones/smell.json" //  ruta 
+      });
+
+
+
+   /* const track = document.getElementById("carouselTrack");
     const prevBtn = document.getElementById("prevBtn");
     const nextBtn = document.getElementById("nextBtn");
   
@@ -656,9 +658,11 @@
     nextBtn.addEventListener("click", () => {
       position = Math.min(position + 1, maxPosition);
       updateCarousel();
-    });
+    });*/
   
-    // Inicializa estado
-    updateButtonState();
+    // Inicializa estado updateButtonState();
+
+    // Carrusel con botones
+           
 </script>
 

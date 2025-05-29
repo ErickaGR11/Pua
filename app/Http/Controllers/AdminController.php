@@ -13,11 +13,135 @@ use App\Models\DetalleVenta;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ReportePedido;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use App\Models\Categoria;
+use App\Models\Seccion;
 
 class AdminController extends Controller
 {
-  
+    public function welcome()
+    {
+        $productosSeccion2 = Producto::where('seccion_id', 2)->get(); // Populares
+
+        return view('welcome', compact('productosSeccion2'));
+    }
+
+    public function admiDashboard()
+    {
+       // Total de productos en stock (suma del stock de todos los productos)
+        $stockTotal = Producto::sum('stock'); 
+        //total ventas
+         $total = Venta::sum('precio_total');
+        // Total productos vendidos (ejemplo: suma de cantidades vendidas)
+        $productosVendidos = DetalleVenta::sum('cantidad'); 
+        //Usuarios registrados
+        $usuariosRegistrados = User::count();
+        // Últimas ventas
+        
+        $ultimasVentas = Venta::with('detalles.producto')->orderBy('fecha_venta', 'desc')->get();
+
+         return view('admiDashboard', compact('total', 'stockTotal','productosVendidos', 'usuariosRegistrados', 'ultimasVentas'));
+    }
+   
+    public function ventasPorPeriodo(Request $request)
+    {
+        $periodo = $request->input('periodo');
+
+        switch ($periodo) {
+            case '1d':
+                $desde = Carbon::now()->subDay();
+                break;
+            case '7d':
+                $desde = Carbon::now()->subDays(7);
+                break;
+            case '30d':
+                $desde = Carbon::now()->subDays(30);
+                break;
+            case '12m':
+                $desde = Carbon::now()->subMonths(12);
+                break;
+            case 'max':
+            default:
+                $total = Venta::sum('precio_total');
+                return response()->json(['total' => number_format($total, 2)]);
+        }
+
+        $total = Venta::where('created_at', '>=', $desde)->sum('precio_total');
+
+        return response()->json(['total' => number_format($total, 2)]);
+    }
+
+   public function productosMasVendidos()
+    {
+        // Paso 1: Obtener IDs de productos más vendidos con la cantidad total vendida
+        $masVendidos = DetalleVenta::select('producto_id', DB::raw('SUM(cantidad) as total_vendido'))
+            ->groupBy('producto_id')
+            ->orderByDesc('total_vendido')
+            ->take(5)
+            ->get();
+
+        // Paso 2: Obtener los productos con su información completa
+        $productos = Producto::whereIn('id', $masVendidos->pluck('producto_id'))
+            ->get()
+            ->map(function ($producto) use ($masVendidos) {
+                // Agregar el campo total_vendido al objeto producto
+                $producto->total_vendido = $masVendidos->firstWhere('producto_id', $producto->id)->total_vendido ?? 0;
+                return $producto;
+            })
+            // Ordenar en base a total_vendido
+            ->sortByDesc('total_vendido')
+            ->values();
+
+            //Mostrar todos los productos 
+            $productosAll = Producto::all();
+            $categorias = Categoria::all(); 
+            $secciones = Seccion::all();    
+
+        return view('admiCrudProductos', compact('productos', 'productosAll', 'categorias', 'secciones'));
+    }
+
+    public function eliminarProducto($id)
+    {
+        $producto = Producto::find($id);
+
+        if (!$producto) {
+            return redirect()->back()->with('error', 'Producto no encontrado.');
+        }
+
+        $producto->delete();
+
+        return redirect()->back()->with('success', 'Producto eliminado correctamente.');
+    }
+
+    public function actualizarProducto(Request $request, $id)
+    {
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'descripcion' => 'nullable|string',
+            'precio' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+            'url_imagen' => 'nullable|string|max:255',
+        ]);
+
+        $producto = Producto::findOrFail($id);
+
+        $producto->nombre = $request->nombre;
+        $producto->descripcion = $request->descripcion;
+        $producto->precio = $request->precio;
+        $producto->stock = $request->stock;
+        $producto->url_imagen = $request->url_imagen ?? $producto->url_imagen;   
+        $producto->categoria_id = $request->categoria_id; 
+        $producto->seccion_id = $request->seccion_id ?? 3;
+        $producto->save();
+
+        return redirect()->back()->with('success', 'Producto actualizado correctamente.');
+    }
+
+
+
     public function dashboard()
     {
         // NuevosDiseños
@@ -111,7 +235,8 @@ class AdminController extends Controller
     public function agregarVenta(Request $request)
     {
         $userId = Auth::id();
-        $carritoItems = CarritoItem::where('user_id', $userId)->get();
+        $carritoItems = CarritoItem::with(['producto.aroma', 'producto.color'])->where('user_id', $userId)->get();
+
 
         if ($carritoItems->isEmpty()) {
             return redirect()->route('carrito')->with('error', 'El carrito está vacío.');
@@ -152,13 +277,16 @@ class AdminController extends Controller
         // Preparar PDF y correo
         $user = Auth::user();
         $productos = $carritoItems->map(function ($item) {
-            return (object)[
-                'nombre' => $item->producto->nombre,
-                'aroma' => $item->producto->aroma->nombre ?? 'N/A',
-                'color' => $item->producto->color->nombre ?? 'N/A',
-                'cantidad' => $item->cantidad,
-                'subtotal' => $item->cantidad * $item->precio_unitario,
-            ];
+        $nombreAroma = Aroma::find($item->aroma_id)?->nombre ?? 'N/A';
+        $nombreColor = Colore::find($item->color_id)?->nombre ?? 'N/A';
+
+        return (object)[
+            'nombre' => $item->producto->nombre,
+            'aroma' => $nombreAroma,
+            'color' => $nombreColor,
+            'cantidad' => $item->cantidad,
+            'subtotal' => $item->cantidad * $item->precio_unitario,
+        ];
         });
 
         $total = $venta->precio_total;

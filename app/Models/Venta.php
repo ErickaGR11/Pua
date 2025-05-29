@@ -15,8 +15,9 @@ class Venta extends Model
         'precio_total',
     ];
 
-    public function venta()
+   
+    public function detalles()
     {
-        return $this->belongsTo(Venta::class);
+        return $this->hasMany(DetalleVenta::class);
     }
 }

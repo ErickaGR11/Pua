@@ -12,14 +12,26 @@ Route::get('/', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');*/
 
+Route::get('/', [AdminController::class, 'welcome'])->name('welcome');
+
 Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-Route::get('/admiDashboard', function () {
+
+/*Route::get('/admiDashboard', function () {
     return view('admiDashboard'); 
-})->middleware(['auth', 'verified'])->name('admiDashboard');
+})->middleware(['auth', 'verified'])->name('admiDashboard');*/
+
+Route::get('/admiDashboard', [AdminController::class, 'admiDashboard'])->name('admiDashboard')->middleware('auth');
+Route::get('/admiDashboard/ventas', [AdminController::class, 'ventasPorPeriodo'])->name('admiDashboard.ventas')->middleware('auth');
+
 
 Route::get('/admiCrudProductos', function () {
     return view('admiCrudProductos'); 
 })->middleware(['auth', 'verified'])->name('admiCrudProductos');
+
+Route::get('/admiCrudProductos', [AdminController::class, 'productosMasVendidos'])->name('admiCrudProductos')->middleware('auth');
+Route::delete('/productos/{id}', [AdminController::class, 'eliminarProducto'])->name('productos.eliminar');
+Route::put('/productos/{id}', [AdminController::class, 'actualizarProducto'])->name('productos.actualizar');
+
 
 Route::get('/detalleProducto/{id}', [AdminController::class, 'show'])->name('detalleProducto');
 Route::get('/detalleCompra', [AdminController::class, 'detalleCompra'])->middleware(['auth', 'verified'])->name('detalleCompra');

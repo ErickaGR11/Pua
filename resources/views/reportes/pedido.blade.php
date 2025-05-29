@@ -5,122 +5,110 @@
     <title>Reporte de Pedido</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 30px;
-            line-height: 1.6;
-            color: #000;
-            background-color: #EFEDE6;
+            font-family: 'Arial', sans-serif;
+            margin: 40px;
+            color: #222;
+            background-color: #fff;
         }
 
         .header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
             margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #ccc;
-        }
-
-        .company-info {
-            text-align: left;
-        }
-
-        .company-info h2 {
-            color: #BD1553;
-            margin-bottom: 5px;
-        }
-
-        .company-info p {
-            margin: 3px 0;
-            font-size: 0.9em;
-            color: #08402C;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 15px;
         }
 
         .logo img {
-            max-height: 70px;
+            max-height: 60px;
+        }
+
+        .company-info {
+            font-size: 0.9rem;
+            text-align: right;
         }
 
         h1 {
-            color: #BD1553;
+            font-size: 1.5rem;
             text-align: center;
-            margin-top: 0;
             margin-bottom: 30px;
+            color: #333;
         }
 
         h2 {
-            color: #08402C;
-            border-bottom: 2px solid #D4B6E6;
-            padding-bottom: 8px;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: #444;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 4px;
         }
 
         h4 {
-            color: #08402C;
-            margin-top: 20px;
-            margin-bottom: 10px;
             font-weight: normal;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .date {
+            text-align: right;
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 20px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 40px;
-            background-color: #fff;
+            margin-bottom: 30px;
         }
 
         th, td {
-            border: 1px solid #ccc;
-            padding: 12px;
+            border: 1px solid #ddd;
+            padding: 10px 12px;
             text-align: left;
         }
 
         th {
-            background-color: #F1CDD7;
+            background-color: #f5f5f5;
             font-weight: bold;
-            color: #08402C;
         }
 
-        .total-table {
-            width: 30%;
-            margin-left: auto;
+        .total {
+            width: 200px;
+            float: right;
+            margin-top: 10px;
         }
 
-        .total-table th {
-            background-color: #BD1553;
-            color: #fff;
+        .total td {
+            font-weight: bold;
+            background-color: #fafafa;
         }
 
-        .date {
-            text-align: right;
-            font-size: 0.9em;
-            color: #555;
+        .bank-info, .instructions {
+            font-size: 0.95rem;
+            margin-top: 25px;
         }
 
-        .bank-info {
-            background-color: #F1CDD7;
-            padding: 15px;
-            margin: 20px 0;
-            border: 2px solid #BD1553;
-            color: #08402C;
+        .bank-info p, .instructions p {
+            margin: 6px 0;
         }
 
-        .instructions {
-            background-color: #D4B6E6;
-            padding: 20px;
-            border-left: 5px solid #BD1553;
-            margin-top: 40px;
+        .section {
+            margin-bottom: 30px;
         }
     </style>
 </head>
 <body>
     <div class="header">
         <div class="logo">
-            <img src="Imagenes/Temu-Logo.jpg" alt="Logo de la Empresa">
+            <img src="Imagenes/logo/logo2.png" alt="Logo de la Empresa">
         </div>
         <div class="company-info">
-            <h2>PUA</h2>
-            <p>Dirección: Av. Pedro Coronel 51, Lomas de Bernardez, 98610 Guadalupe, Zac.</p>
-            <p>Teléfono: 481-153-56-57</p>
-            <p>Email: erickagr119@gmail.com</p>
+            <strong>PUA</strong><br>
+            Av. Pedro Coronel 51, Guadalupe, Zac.<br>
+            Tel: 481-153-56-57<br>
+            Email: erickagr119@gmail.com
         </div>
     </div>
 
@@ -128,17 +116,15 @@
         Fecha: {{ now()->format('d/m/Y') }}
     </div>
 
-    <h1>Reporte de Pedido</h1>
+    <h1>Resumen de Pedido</h1>
 
-    <div class="bank-info">
-        <h3>Datos de Depósito/Transferencia</h3>
-        <p><strong>Cuenta:</strong> 1234567890123456</p>
-        <p><strong>Banco:</strong> Bancomer</p>
+    <div class="section">
+        <h2>Cliente</h2>
+        <h4>{{ $user->name }}</h4>
     </div>
 
     <div class="section">
-        <h2>Detalles del Pedido</h2>
-        <h4>Cliente: {{ $user->name }}</h4>
+        <h2>Productos</h2>
         <table>
             <thead>
                 <tr>
@@ -163,26 +149,23 @@
         </table>
     </div>
 
-    <div class="section">
-        <table class="total-table">
-            <thead>
-                <tr>
-                    <th>Total de la compra</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>${{ number_format($total, 2) }}</td>
-                </tr>
-            </tbody>
-        </table>
+    <table class="total">
+        <tr>
+            <td>Total: ${{ number_format($total, 2) }}</td>
+        </tr>
+    </table>
+
+    <div class="bank-info">
+        <h2>Datos para Pago</h2>
+        <p><strong>Cuenta:</strong> 1234567890123456</p>
+        <p><strong>Banco:</strong> Bancomer</p>
     </div>
 
     <div class="instructions">
         <h2>Instrucciones</h2>
-        <p>Se te enviará un mensaje por WhatsApp o correo electrónico con los días estimados que va a demorar tu pedido.</p>
-        <p>Una vez que eso esté hecho, se debe dar como mínimo un anticipo del 50% para comenzar el proceso de tu pedido.</p>
-        <p>Se debe enviar el comprobante al número de WhatsApp y esperar la confirmación del pago.</p>
+        <p>Se te contactará vía WhatsApp o correo para coordinar la entrega.</p>
+        <p>Se requiere un anticipo mínimo del 50% para comenzar el proceso del pedido.</p>
+        <p>Envía el comprobante de pago para confirmar tu pedido.</p>
     </div>
 </body>
 </html>

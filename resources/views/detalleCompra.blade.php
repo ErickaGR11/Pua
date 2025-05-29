@@ -16,6 +16,8 @@
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link rel="stylesheet" href="https://carriers-presidential-honolulu-listings.trycloudflare.com/css/styles.css">
+
 <style>
     .card { 
         border-radius: 18px; 
