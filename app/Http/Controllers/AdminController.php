@@ -13,6 +13,7 @@ use App\Models\DetalleVenta;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ReportePedido;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -55,44 +56,44 @@ class AdminController extends Controller
 
     public function agregar(Request $request) 
     {
-    if (!Auth::check()) {
-        return redirect()->route('login')->with('error', 'Debes iniciar sesión.');
-    }
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Debes iniciar sesión.');
+        }
 
-    $request->validate([
-        'producto_id' => 'required|exists:productos,id',
-        'color_id' => 'required|integer',
-        'aroma_id' => 'required|integer',
-        'quantity' => 'required|integer|min:1',
-    ]);
-
-    $userId = Auth::id();
-    $producto = Producto::findOrFail($request->producto_id);
-
-    // Buscar si ya existe el mismo producto en el carrito
-    $itemExistente = CarritoItem::where('user_id', $userId)
-        ->where('producto_id', $producto->id)
-        ->where('color_id', $request->color_id)
-        ->where('aroma_id', $request->aroma_id)
-        ->first();
-
-    if ($itemExistente) {
-        // Incrementar la cantidad existente
-        $itemExistente->cantidad += $request->quantity;
-        $itemExistente->save();
-    } else {
-        // Crear nuevo registro en el carrito
-        CarritoItem::create([
-            'user_id' => $userId,
-            'producto_id' => $producto->id,
-            'color_id' => $request->color_id,
-            'aroma_id' => $request->aroma_id,
-            'cantidad' => $request->quantity,
-            'precio_unitario' => $producto->precio,
+        $request->validate([
+            'producto_id' => 'required|exists:productos,id',
+            'color_id' => 'required|integer',
+            'aroma_id' => 'required|integer',
+            'quantity' => 'required|integer|min:1',
         ]);
-    }
 
-    return redirect()->route('carrito')->with('success', 'Producto agregado al carrito.');
+        $userId = Auth::id();
+        $producto = Producto::findOrFail($request->producto_id);
+
+        // Buscar si ya existe el mismo producto en el carrito
+        $itemExistente = CarritoItem::where('user_id', $userId)
+            ->where('producto_id', $producto->id)
+            ->where('color_id', $request->color_id)
+            ->where('aroma_id', $request->aroma_id)
+            ->first();
+
+        if ($itemExistente) {
+            // Incrementar la cantidad existente
+            $itemExistente->cantidad += $request->quantity;
+            $itemExistente->save();
+        } else {
+            // Crear nuevo registro en el carrito
+            CarritoItem::create([
+                'user_id' => $userId,
+                'producto_id' => $producto->id,
+                'color_id' => $request->color_id,
+                'aroma_id' => $request->aroma_id,
+                'cantidad' => $request->quantity,
+                'precio_unitario' => $producto->precio,
+            ]);
+        }
+
+        return redirect()->route('carrito')->with('success', 'Producto agregado al carrito.');
     }
 
 
@@ -146,12 +147,31 @@ class AdminController extends Controller
                 }
                 $producto->save();
             }
-    }
+        }
 
-    // Vaciar el carrito después de la compra
-    CarritoItem::where('user_id', $userId)->delete();
+        // Preparar PDF y correo
+        $user = Auth::user();
+        $productos = $carritoItems->map(function ($item) {
+            return (object)[
+                'nombre' => $item->producto->nombre,
+                'aroma' => $item->producto->aroma->nombre ?? 'N/A',
+                'color' => $item->producto->color->nombre ?? 'N/A',
+                'cantidad' => $item->cantidad,
+                'subtotal' => $item->cantidad * $item->precio_unitario,
+            ];
+        });
 
-    return redirect()->route('dashboard')->with('pedido_exitoso', true);
+        $total = $venta->precio_total;
+        $pdf = Pdf::loadView('reportes.pedido', compact('productos', 'total', 'user'));
+        $pdfPath = storage_path('app/public/Reporte_Pedido.pdf');
+        $pdf->save($pdfPath);
+
+        Mail::to($user->email)->send(new ReportePedido($user, $pdfPath));
+
+        // Vaciar el carrito
+        CarritoItem::where('user_id', $userId)->delete();
+
+        return redirect()->route('dashboard')->with('pedido_exitoso', true);
     }
    
     
@@ -179,7 +199,7 @@ class AdminController extends Controller
     $total = $venta->precio_total;
 
     // Generar el PDF
-    $pdf = Pdf::loadView('reportes.venta', compact('user', 'productos', 'total'));
+    $pdf = Pdf::loadView('reportes.pedido', compact('user', 'productos', 'total'));
 
     // Guardar temporalmente el PDF
     $pdfPath = storage_path('app/public/Reporte_Pedido.pdf');
@@ -187,7 +207,9 @@ class AdminController extends Controller
 
     // Enviar correo
     Mail::to('netflixteam8119@gmail.com')->send(new ReportePedido($user, $pdfPath));
-
+    
+    // Eliminar el PDF temporal
+    Storage::delete('public/Reporte_Pedido.pdf');
     return redirect()->route('dashboard')->with('success', 'El reporte fue enviado con éxito.');
     }
 }

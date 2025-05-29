@@ -238,7 +238,7 @@
            
             <div class="row p-4">
                 <div class="col-sm-4">
-                    <div class="card">
+                    <div class="card m-4">
                         <div class="card-header text-center">
                           <div id="lottie-edit" style="width: 80px; height: 80px; margin: auto;"></div>
                         </div>
@@ -250,9 +250,11 @@
                     </div>
                   </div>
                   
-                <div class="col-sm-4 mb-3 mb-sm-0">
-                  <div class="card">
-                    <div class="card-header"><i class="bi bi-stars fs-1"></i></div>
+                <div class="col-sm-4 ">
+                  <div class="card m-4">
+                    <div class="card-header">
+                        <div id="lottie-P-anim" style="width: 80px; height: 80px; margin: auto;"></div>
+                  </div>
                     <div class="card-body">
                       <h5 class="card-title">Diseños Únicos</h5>
                       <p class="card-text">Cada vela es una obra de arte artesanal con diseños creativos 
@@ -262,8 +264,10 @@
                 </div>
                 
                 <div class="col-sm-4">
-                    <div class="card">
-                        <div class="card-header"><i class="bi bi-flower1 fs-1"></i></div>
+                    <div class="card m-4">
+                        <div class="card-header">
+                          <div id="lottie-smell" style="width: 80px; height: 80px; margin: auto;"></div>
+                      </div>
                       <div class="card-body">
                         <h5 class="card-title">Aromas Variados</h5>
                         <p class="card-text">Nuestra colección de fragancias cuidadosamente seleccionadas crea experiencias sensoriales únicas, 
@@ -403,37 +407,45 @@
         </section>
 
         <section class="py-5 px-3" style="background-color: #f8f9fa;">
-            <div class="container">
-              <div class="card shadow-sm p-4">
-                <h2 class="text-center display-6 mb-2 fw-bold">Información de Pedidos</h2>
-                  <!-- Política de Pago -->
-                  <div class="col-md-6 p-4">
-                    <h4 class="fw-semibold mb-3 fs-2">Política de Pago</h4>
-                    <ul class="list-unstyled fs-4">
-                      <li class="d-flex align-items-start mb-3">
-                        <div class="me-2" style="color: #08402c;">
-                          <i class="bi bi-credit-card-fill fs-5"></i>
-                        </div>
-                        <div><strong>Anticipo del 50%</strong> para confirmar tu pedido</div>
-                      </li>
-                      <li class="d-flex align-items-start mb-3">
-                        <div class="me-2" style="color: #08402c;">
-                          <i class="bi bi-box-seam fs-5"></i>
-                        </div>
-                        <div><strong>50% restante</strong> al momento de la entrega</div>
-                      </li>
-                      <li class="d-flex align-items-start mb-3">
-                        <div class="me-2" style="color: #08402c;">
-                          <i class="bi bi-wallet-fill fs-5"></i>
-                        </div>
-                        <div>Aceptamos transferencias, depósitos y efectivo</div>
-                      </li>
-                    </ul>
-                  </div>
+          <div class="container">
+            <div class="card shadow-sm p-4">
+              <h2 class="text-center display-6 mb-4 fw-bold">Información de Pedidos</h2>
+              <div class="row align-items-center">
+                <!-- Columna izquierda: Texto -->
+                <div class="col-md-6 p-4">
+                  <h4 class="fw-semibold mb-3 fs-2">Política de Pago</h4>
+                  <ul class="list-unstyled fs-4">
+                    <li class="d-flex align-items-start mb-3">
+                      <div class="me-2" style="color: #08402c;">
+                        <i class="bi bi-credit-card-fill fs-5"></i>
+                      </div>
+                      <div><strong>Anticipo del 50%</strong> para confirmar tu pedido</div>
+                    </li>
+                    <li class="d-flex align-items-start mb-3">
+                      <div class="me-2" style="color: #08402c;">
+                        <i class="bi bi-box-seam fs-5"></i>
+                      </div>
+                      <div><strong>50% restante</strong> al momento de la entrega</div>
+                    </li>
+                    <li class="d-flex align-items-start mb-3">
+                      <div class="me-2" style="color: #08402c;">
+                        <i class="bi bi-wallet-fill fs-5"></i>
+                      </div>
+                      <div>Aceptamos transferencias, depósitos y efectivo</div>
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- Columna derecha: Lottie -->
+                <div class="col-md-6 d-flex justify-content-center">
+                  <div id="lottie-checklist" style="width: 300px; height: 300px; margin: auto;"></div>
+                  
                 </div>
               </div>
             </div>
-          </section>
+          </div>
+        </section>
+
           
 
         <div class="container">
@@ -458,27 +470,28 @@
                     </h2>
                     <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion" >
                         <div class="accordion-body">
+                            <p>El tiempo de entrega varía según el tipo de vela y la cantidad del pedido, <b>esto es un aproximado</b>:</p>
                             <ul class="list-unstyled">
                                 <li class="d-flex align-items-start mb-3">
-                                  <div class="me-2"style="color: rgb(170, 170, 170);">
+                                  <div class="me-2" style="color: rgb(0, 0, 0);">
                                     <i class="bi bi-clock-fill fs-5"></i>
                                   </div>
                                   <div><strong>1-3 días:</strong> Velas en stock</div>
                                 </li>
                                 <li class="d-flex align-items-start mb-3">
-                                  <div class="me-2" style="color: rgb(170, 170, 170);">
+                                  <div class="me-2" style="color: rgb(0, 0, 0);">
                                     <i class="bi bi-clock-fill fs-5"></i>
                                   </div>
                                   <div><strong>3-5 días:</strong> Velas sencillas</div>
                                 </li>
                                 <li class="d-flex align-items-start mb-3">
-                                  <div class="me-2" style="color: rgb(170, 170, 170);">
+                                  <div class="me-2" style="color: rgb(0, 0, 0);">
                                     <i class="bi bi-clock-fill fs-5"></i>
                                   </div>
                                   <div><strong>10-15 días:</strong> Pedidos personalizados o grandes</div>
                                 </li>
                                 <li class="d-flex align-items-start mb-3">
-                                  <div class="me-2" style="color: rgb(240, 200, 0);">
+                                  <div class="me-2" style="color: rgb(0, 0, 0);">
                                     <i class="bi bi-lightning-fill fs-5"></i>
                                   </div>
                                   <div><strong>Opciones urgentes:</strong> Costo adicional</div>
