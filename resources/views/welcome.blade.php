@@ -511,7 +511,7 @@
                 <div class="col">
                   <h5 class="text-uppercase small mb-3">Tienda</h5>
                   <ul class="list-unstyled">
-                    <li><a href="#" class="text-muted text-decoration-none d-block mb-2">Dirección: Calle Ejemplo 123, Ciudad, Estado, CP 12345</a></li>
+                    <li><a href="#" class="text-muted text-decoration-none d-block mb-2">Dirección: Av. Pedro Coronel 51, Lomas de Bernardez, 98610 Guadalupe, Zac.</a></li>
                     <li><a href="#" class="text-muted text-decoration-none d-block mb-2">Personalización</a></li>
                     <li><a href="#" class="text-muted text-decoration-none d-block mb-2">Colección Esencial</a></li>
                   </ul>
@@ -522,22 +522,15 @@
                   <h5 class="text-uppercase small mb-3">Información</h5>
                   <ul class="list-unstyled">
                     <li><a href="#SobreNosotros" class="text-muted text-decoration-none d-block mb-2">Sobre nosotros</a></li>
-                    <li><a href="#" class="text-muted text-decoration-none d-block mb-2">Nuestro proceso</a></li>
-                    <li><a href="#" class="text-muted text-decoration-none d-block mb-2">Sostenibilidad</a></li>
-                    <li><a href="#" class="text-muted text-decoration-none d-block mb-2">Blog</a></li>
                   </ul>
                 </div>
 
                   <!-- Redes -->
                   <div class="col">
                     <h5 class="text-uppercase small mb-3">Redes Sociales</h5>
-                        <div class="d-flex gap-3">
-                        <a href="https://www.instagram.com/tu_usuario" target="_blank" class="text-muted text-decoration-none">
+                        <div class="d-flex gap-3 fs-6">
+                        <a href="https://www.instagram.com/velas_pua" target="_blank" class="text-muted text-decoration-none">
                             <i class="bi bi-instagram"></i> Velas.pua
-                        </a>
-                        <br>
-                        <a href="https://www.facebook.com/tu_pagina" target="_blank" class="text-muted text-decoration-none">
-                            <i class="bi bi-tiktok"></i> Velas.pua
                         </a>
                       
                         </div>

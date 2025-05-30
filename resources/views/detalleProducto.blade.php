@@ -6,7 +6,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
-<link rel="stylesheet" href="https://carriers-presidential-honolulu-listings.trycloudflare.com/css/styles.css">
+<link rel="stylesheet" href="https://reprints-oriented-venture-memories.trycloudflare.com/css/styles.css">
 
 <style>
     /* Estilo para el color seleccionado */
